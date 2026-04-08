@@ -1,0 +1,204 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16.03.2019, 10:05:55
+    Author     : Gamer
+*/
+
+
+#allMenus {
+    padding-left: 25%;
+    font-size: 20px;
+}
+
+#selectMenu {
+    min-width: 225px;
+    max-width: 320px;
+    background: #2c3e50;
+    height: 225px;
+    position: absolute;
+    display: grid;
+    padding-bottom: 15px;
+}
+
+#selectMenu .ui-button {
+    background: transparent;
+    color: #9da7b1;
+}
+
+#selectMenu .ui-button:hover {
+    background: transparent;
+    color: #ced6e0;
+}
+
+#topbar_selectMenu {
+    font-size: 13px;
+    height: 50px;
+    display: inline-table;
+    background: #fa7846;
+    text-align: center;
+    color: #f5f6fa;
+}
+
+#menu {
+    position: absolute;
+    background: #2c3e50;
+    width: 300px;
+    height: 500px;
+    margin-left: 350px;
+}
+
+#menu .ui-button {
+    height: 50px;
+    outline: none;
+    color: white;
+    background: #fa7846;
+}
+
+#topbar_menu {
+    width: 100%;
+    height: 50px;
+    display: inline-table;
+    background: #fa7846;
+    text-align: center;
+    color: #f5f6fa;
+}
+
+#allMenus .square {
+    margin-top: 4px;
+    margin-right: 10px;
+    height: 35px;
+    width: 35px;
+    background-color: #fa7846;
+    display: -webkit-inline-box;
+}
+
+.settingsMenu {
+    display: grid;
+    position: absolute;
+    margin-left: 23.5px;
+    margin-top: 15px;
+}
+
+.settingsMenu .ui-inputfield {
+    outline: none;
+    background: #9da7b1;
+    color: black;
+    width: 100%; 
+    border: 0;
+    padding-left: 23px;
+    box-sizing: border-box;
+    font-size: 14px;
+    -webkit-box-shadow: inset 0 0px 0px #8f8f8f;
+    padding: 10px;
+}
+
+.passwordMenu {
+    display: none;
+    position: absolute;
+    margin-left: 25px;
+    margin-top: 45px;
+}
+
+.passwordMenu .ui-inputfield {
+    outline: none;
+    background: #9da7b1;
+    color: black;
+    width: 100%; 
+    border: 0;
+    padding-left: 23px;
+    box-sizing: border-box;
+    font-size: 14px;
+    -webkit-box-shadow: inset 0 0px 0px #8f8f8f;
+    padding: 10px;
+
+}
+
+.groupMenu {
+    display: none;
+    position: absolute;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 45px;
+}
+
+#allMenus p {
+        color: #9da7b1;
+}
+
+#allMenus .ui-state-default {
+    box-shadow: none;
+    border: none;
+    text-shadow: none;
+}
+
+#allMenus .ui-corner-all {
+    border-radius: 0px;
+}
+
+#allMenus  #topbar_selectMenu h1 {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#allMenus  tbody {
+    display: grid;
+    display: grid;
+    padding-bottom: 5px;
+}
+
+#allMenus .ui-button-text-only .ui-button-text {
+    font-size: 20px;
+}
+
+.ui-dialog {
+    background: #2c3a47;
+    color: white;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    background: #f87746;
+}
+
+.ui-dialog .ui-dialog-buttonpane button {
+    background: #f87646;
+    border: 0;
+    color: white;
+    border-radius: 32px;
+}
+
+@media screen and (max-width: 1300px) {
+
+
+    #allMenus {
+        padding-left: 10%;
+    }
+
+
+}
+
+@media screen and (max-width: 1000px) {
+
+
+    #allMenus {
+        padding-left: 10%;
+    }
+
+    #menu {
+        background: #2c3e50;
+        margin-top: 50px;
+        margin-left: 0px;
+        margin-top: 250px;
+    }
+
+    #selectMenu {
+        background: #2c3e50;
+        position: absolute;
+        min-width: 225px;
+        max-width: 320px;
+    }
+
+}

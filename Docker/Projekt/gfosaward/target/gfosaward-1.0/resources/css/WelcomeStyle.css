@@ -1,0 +1,144 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16.03.2019, 12:57:44
+    Author     : Gamer
+*/
+
+#allGroups {
+    width: 1100px;
+    padding-bottom: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#createGroup {
+    width: 465px;
+    height: 666px;
+    background: #34495e;
+    margin-left: 635px;
+    position: absolute;
+}
+
+#createGroup_top {
+    letter-spacing: 2px;
+    display: inline-block;
+    background: #fa7846;
+    text-align: center;
+    min-width: 100%;
+    color: #f5f6fa;
+}
+
+#joinGroup {
+    position: absolute;
+    width: 465px;
+    height: 666px;
+    background: #34495e;
+}
+
+#joinGroup_top {
+    letter-spacing: 2px;
+    display: inline-block;
+    background: #fa7846;
+    text-align: center;
+    min-width: 100%;
+    color: #f5f6fa;
+}
+
+#allGroups .ui-button{
+    background: #dcdde1;
+    color: #40739e;
+    width: 100%; 
+    border: 0;
+    box-sizing: border-box;
+    font-size: 26px;
+    -webkit-box-shadow: inset 0 0px 0px #8f8f8f;
+    padding: 10px;
+    height: 100px;
+    outline: none;
+    position: absolute;
+    bottom: 0;
+
+}
+
+#allGroups .ui-inputfield {
+    position: absolute;
+    outline: none;
+    background: #dcdde1;
+    color: black;
+    width: 50%;
+    padding-left: 23px;
+    box-sizing: border-box;
+    font-size: 14px;
+    padding: 10px;
+    margin-left: 25%;
+}
+
+#joinGroup input {
+    padding-left: 10px;
+    background: #dcdde1;
+    font-size: 14px;
+    height: 36px;
+    margin-left: 20.5%;
+    position: absolute;
+    border: 0;
+    width: 263px;
+}
+
+#createGroup .square {
+    margin-top: 2px;
+    margin-left: 50px;
+    height: 35px;
+    width: 35px;
+    background-color: #fa7846;
+    display: -webkit-inline-box;
+    position: absolute;
+}
+
+#WelcomescreenForm .ui-state-default {
+    box-shadow: none;
+    border: none;
+    text-shadow: none;
+}
+
+#WelcomescreenForm .ui-corner-all {
+    border-radius: 0px;
+}
+
+#WelcomescreenForm p {
+    margin: 40px 40px 40px 40px;
+    color: #9da7b1;
+    font-size: 20px;
+}
+
+
+@media screen and (max-width: 1100px) {
+
+
+#allGroups {
+    padding-bottom: 600px;
+    margin-left: 50%;
+}
+
+#joinGroup {
+    position: absolute;
+    width: 465px;
+    height: 666px;
+    background: #34495e;
+}
+
+#createGroup {
+    width: 465px;
+    height: 666px;
+    background: #34495e;
+    margin-top: 690px;
+    margin-left: 0px;
+    position: absolute;
+}
+
+}

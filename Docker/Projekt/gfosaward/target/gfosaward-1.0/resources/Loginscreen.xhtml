@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>    
+        <title>Anmeldung</title>
+    </h:head>
+
+        
+    <script type="application/javascript">
+       
+        
+        function errorSquare(squareClass, isErr)
+        {           
+            if(isErr)                      
+                document.getElementsByClassName(squareClass)[0].style.backgroundColor = "red";
+            else
+                document.getElementsByClassName(squareClass)[0].style.backgroundColor = "#fa7846";                     
+        }
+        </script>
+
+    <h:body>      
+        <h:outputStylesheet library = "css" name = "LoginStyle.css" />    
+        <h:form id="loginBox">
+            <div class="login-head">
+                <h1>ANMELDUNG</h1>
+            </div>                    
+            
+            <h:panelGrid class="loginPanel" columns="1" cellpadding="5" >   
+                <h:panelGrid class="loginInput" columns="2" cellpadding="5" >                
+                    <div class="square logMailErr"></div>
+                    <p:inputText id="e-mail" type="text" placeholder="E-mail" value="#{loginBean.email}"/>
+                        <div class="square logPasswordErr"></div>
+                    <p:inputText id="password" type="password" placeholder="Passwort"  value="#{loginBean.password}"/>
+                </h:panelGrid>
+                <p:commandButton id="loginBtn" action="#{loginBean.loginUser()}" 
+                                 value="ANMELDEN" update="@(.loginInput)" ajax="true" styleClass="Menu">
+                </p:commandButton>   
+                <p id="accountCreate">Kein Account? <a href="faces/resources/Registerscreen.xhtml">Erstelle einen Account.</a></p>
+            </h:panelGrid>  
+            <p id="error"></p>
+            
+        </h:form>
+    </h:body>
+</html>
+

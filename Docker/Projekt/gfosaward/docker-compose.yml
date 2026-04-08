@@ -1,0 +1,39 @@
+version: '3.3'
+volumes:
+    db-datavolume:
+        
+services:
+    
+    db:
+        build:
+            context: .
+            dockerfile: db.Dockerfile
+        environment:
+            - MYSQL_ROOT_PASSWORD=pw123
+        ports:
+            - "3306:3306"
+        
+
+    fakesmtp:
+        image: kurzdigital/fake-smtp
+        environment:
+            - SMTP_PORT=25
+        ports:
+            - "25:25"
+            - "5080:5080"
+
+    
+    wildfly:
+        build: 
+            context: .
+            dockerfile: web.Dockerfile
+        ports:
+            - "8080:8080"
+            - "9990:9990"
+
+        depends_on:
+            - db
+            - fakesmtp
+
+
+        

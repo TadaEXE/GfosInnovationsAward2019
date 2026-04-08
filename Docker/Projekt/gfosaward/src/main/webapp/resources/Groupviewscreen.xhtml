@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    </h:head>
+
+    <script>
+        function errorSquare(squareClass, isErr)
+        {
+            if (isErr)
+                document.getElementsByClassName(squareClass)[0].style.backgroundColor = "red";
+            else
+                document.getElementsByClassName(squareClass)[0].style.backgroundColor = "#fa7846";
+        }
+
+        function updateLists()
+        {
+            var select = document.getElementById("teamList");
+            var length = select.options.length;
+            for (i = 0; i &lt; length; i++) {
+                select.options.remove(i);
+            }
+        }
+
+        function addTeamToList(name)
+        {
+            var para = document.createElement("option");
+            document.getElementById("teamList").appendChild(para);
+            var att = document.createAttribute("value");
+            att.value = name;
+            para.setAttributeNode(att);
+        }
+
+        function changeTeamJS()
+        {
+            var team = document.getElementById("teamSearch").value;
+            document.getElementById("GroupviewscreenForm:teamHolder").value = team;
+            var rank = document.getElementById("rankSearch").value;
+            document.getElementById("GroupviewscreenForm:rankHolder").value = rank;
+            changeTeam();
+        }
+
+        function closeOverlayMemberJS()
+        {
+            closeOverlayMember();
+        }
+
+        function deleteGroupJS()
+        {
+            if (confirm("Sind Sie sicher, dass sie die Gruppe löschen möchten?"))
+            {
+                deleteGroupReq();
+            }
+        }
+        
+        function inputReadOnly(isReadOnly)
+        {
+                var team = document.getElementById("teamSearch");
+                var rank = document.getElementById("rankSearch");
+                if(isReadOnly)
+                {
+                    team.readOnly = true;
+                    rank.readOnly = true;
+                }
+                else
+                {
+                    team.readOnly = false;
+                    rank.readOnly = false;
+                }
+        }
+        
+
+    </script>
+
+    <h:body>
+        <h:outputStylesheet library = "css" name = "GroupviewStyle.css"  />    
+        <h:form id="GroupviewscreenForm">
+
+
+            <!--Not Visible-->
+            <p:remoteCommand name="changeTeam" action="#{userDataBean.changeUser(userBean.selectedTreeObj.entityAsUser)}"/>
+            <p:remoteCommand name="deleteGroupReq" action="#{userDataBean.deleteGroup()}" update="@all"/>
+            <p:inputText id="teamHolder" value="#{userDataBean.changeTeam_Name}" style="display: none;"/>
+            <p:inputText id="rankHolder" value="#{userDataBean.changeTeam_Rank}" style="display: none;"/>
+            <p:remoteCommand name="closeOverlaySmtp" action="PF('smtpShow').hide()" update=":GroupviewscreenForm:smtpShowID"/>
+            <p:remoteCommand name="closeOverlayMember" action="#{userDataBean.closeOverlayMemberReq()}" update=":GroupviewscreenForm:MemberRequestTreeDialog :GroupviewscreenForm:MemberTreeDialog :GroupviewscreenForm:memberTree :GroupviewscreenForm:requestTree" />
+
+            <!--Not Visible-->
+
+
+
+            <h:panelGroup rendered="#{userBean.userHasMinRank(3)}">
+                <p:commandButton style="float: right;" id="smtpShowOverlay" value="SMTP" onclick="PF('smtpShow').show()">
+                </p:commandButton>
+
+                <p:overlayPanel id="smtpShowID" widgetVar="smtpShow" showEffect="fade" hideEffect="fade" for="smtpShowOverlay" dismissable="false">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="square creSHostErr"></div>
+                                <p:inputText id="smtphost" type="text" placeholder="Host" value="#{userDataBean.smtp_Host}">
+                                    <p:ajax event="change" listener="#{userDataBean.smtp_Host}"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square creSMailErr"></div>
+                                <p:inputText id="smtpmail" type="text" placeholder="Mail" value="#{userDataBean.smtp_Mail}">
+                                    <p:ajax event="change" listener="#{userDataBean.smtp_Mail}"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <p:commandButton class="saveBtn" value="Speichern" type="button">
+                        <p:ajax event="click" listener="#{userDataBean.changeSMTP()}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Abbrechen">
+                        <p:ajax event="click" update="tabView" />
+                    </p:commandButton>
+                </p:overlayPanel>
+            </h:panelGroup>
+
+
+            <h:panelGroup rendered="#{userBean.userHasMinRank(2)}">
+                <p:commandButton id="showCreateTeam" style="float: right;" value="Team erstellen" onclick="PF('teamCreate').show()"/>
+
+                <p:overlayPanel widgetVar="teamCreate" showEffect="fade" hideEffect="fade" for="showCreateTeam" dismissable="false">
+
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="square creTeamNameErr"></div>
+                                <p:inputText id="projectname" type="text" placeholder="Titel" value="#{userDataBean.createTeam_Name}">
+                                    <p:ajax event="keyup"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <p:commandButton class="saveBtn" value="Erstellen" type="button">
+                        <p:ajax event="click" listener="#{userDataBean.createTeam()}" update="@(.square)"/>
+                    </p:commandButton>
+                    <p:commandButton value="Abbrechen">
+                        <p:ajax event="click" listener="#{userDataBean.closeProjectCreate()}" update="tabView" />
+                    </p:commandButton>
+                </p:overlayPanel>
+
+            </h:panelGroup>
+
+            <!--JOIN REQUESTS -->
+
+            <div id="requestList">
+                <p:treeTable id="requestTree" value="#{userBean.genRequestedUsersInGroup()}" var="memberRequest" rendered="#{userBean.userHasMinRank(2)}">
+                    <f:facet name="header">
+                        Mitgliedsanfragen
+                    </f:facet>
+                    <p:column headerText="Name">
+                        <h:outputText value="#{memberRequest.name}" />
+                    </p:column>
+                    <p:column style="width:140px">
+                        <p:commandButton value="Anzeigen" update=":GroupviewscreenForm:MemberRequestTreeDialog" oncomplete="PF('MemberRequestTreeDialog').show()">
+                            <f:setPropertyActionListener value="#{memberRequest}" target="#{userBean.selectedTreeObj}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:treeTable>
+            </div>
+
+
+            <p:dialog id="MemberRequestTreeDialog" header="Information" showEffect="fade" widgetVar="MemberRequestTreeDialog" resizable="false" closeOnEscape="true">
+                <p:outputPanel>
+                    <table>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Akzeptieren" style="width: 254px;">
+                                    <p:ajax event="click" listener="#{userDataBean.acceptUser(userBean.selectedTreeObj.entityAsUser)}" update="tabView"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Ablehnen" style="width: 254px;">
+                                    <p:ajax event="click" listener="#{userDataBean.denieUser(userBean.selectedTreeObj.entityAsUser)}" update="tabView"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Abbrechen" style="width: 254px;">
+                                    <p:ajax event="click" update="tabView"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </p:dialog>
+
+            <!--JOIN REQUESTS -->
+
+
+
+
+
+
+
+            <!--MEMBERS IN GROUP -->
+
+            <div id="membersList">
+                <p:treeTable id="memberTree" value="#{userBean.genUsersInGroup()}" var="member">
+                    <f:facet name="header">
+                        Mitgliederansicht
+                    </f:facet>
+                    <p:column headerText="Name">
+                        <h:outputText value="#{member.name}" />
+                    </p:column>
+                    <p:column headerText="Typ">
+                        <h:outputText value="#{member.classType}" />
+                    </p:column>
+                    <p:column style="width:140px">
+                        <p:commandButton value="Anzeigen" update=":GroupviewscreenForm:MemberTreeDialog" oncomplete="PF('MemberTreeDialog').show()">
+                            <f:setPropertyActionListener value="#{member}" target="#{userBean.selectedTreeObj}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:treeTable>
+            </div>
+
+            <p:dialog id="MemberTreeDialog" header="Information" showEffect="fade" widgetVar="MemberTreeDialog" resizable="false" closeOnEscape="true" onShow="#{userBean.groupScreenSetup()}">
+                <p:outputPanel rendered="#{userBean.selectedTreeObj.classType eq 'Team'}">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="square changeTeamNameErr"></div>
+                                <p:inputText id="changeTeamName" type="text" placeholder="Name" value="#{userBean.selectedTreeObj.entityAsTeam.name}" readonly="#{!userBean.userHasMinRank(2)}">
+                                    <p:ajax event="keyup" listener="#{userDataBean.changeTeam_Name}"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Speichern" rendered="#{userBean.userHasMinRank(2)}" style="width: 254px;">
+                                    <p:ajax event="click" listener="#{userDataBean.changeTeam(userBean.selectedTreeObj.entityAsTeam)}" update="@(.square)"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Entfernen" rendered="#{userBean.userHasMinRank(2)}" style="width: 254px;">
+                                    <p:ajax event="click" listener="#{userDataBean.closeTaskCreate()}" update="tabView"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="Abbrechen" style="width: 254px;">
+                                    <p:ajax event="click" listener="#{userDataBean.closeTaskCreate()}" update="tabView"/>
+                                </p:commandButton>
+                            </td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+
+
+                <p:outputPanel rendered="#{userBean.selectedTreeObj.classType eq 'Nutzer'}">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="square changeMemberTeamErr"></div>
+                                <input id="teamSearch" list="teamList" placeholder="Team" value="#{userBean.selectedTreeObj.entityAsUser.team.name}"/>
+                                <datalist id="teamList">
+                                </datalist>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square changeRankErr"></div>
+                                <input id="rankSearch" list="rankList" placeholder="Rang" value="#{userBean.selectedTreeObj.entityAsUser.rank}"/>
+                                <datalist id="rankList">
+                                    <option value="Arbeiter"/>
+                                    <option value="Projektmanager"/>
+                                    <option value="Gruppenmanager"/>
+                                    <option value="Admin"/>
+                                </datalist>
+                            </td>
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Speichern" rendered="#{userBean.userHasMinRank(3)}" style="width: 254px;">
+                                    <p:ajax event="click" oncomplete="changeTeamJS()" update="@(.square)"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Entfernen" rendered="#{userBean.userHasMinRank(3)}" style="width: 254px;">
+                                    <p:ajax event="click" listener="#{userDataBean.kickUser(userBean.selectedTreeObj.entityAsUser)}" update="tabView"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="Abbrechen" style="width: 254px;">
+                                    <p:ajax event="click" listener="#{userDataBean.closeTaskCreate()}" update="tabView"/>
+                                </p:commandButton>
+                            </td>
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </p:dialog>
+
+            <!--MEMBERS IN GROUP -->  
+
+
+            <p:commandButton id="deleteProject" style="margin-top: 50px; float: right;" value="Gruppe löschen" onclick="deleteGroupJS()" rendered="#{userBean.userHasMinRank(3)}"/>
+
+        </h:form>
+    </h:body>
+</html>

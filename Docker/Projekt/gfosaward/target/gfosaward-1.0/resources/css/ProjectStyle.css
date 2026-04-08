@@ -1,0 +1,144 @@
+/*
+To change this license header, choose License Headers in Proj Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23.03.2019, 14:25:07
+    Author     : Gamer
+*/
+
+#ProjscreenForm .ui-treetable table {
+    border-collapse: collapse;
+    width: 100%;
+    border-color: black;
+    background: #2c3e50;
+}
+
+#ProjscreenForm thead {
+    background: #fa7846;
+}
+
+#ProjscreenForm span {
+    color: white;
+}
+
+#ProjscreenForm tbody {
+    color: #ced6e0;
+}
+
+#ProjscreenForm .ui-treetable .ui-treetable-header {
+    border-bottom: 0 none;
+    font-size: 30px;
+    color: #ced6e0;
+    text-align: -webkit-left;
+}
+
+#ProjscreenForm .ui-overlaypanel {
+    background: rgb(44, 58, 71);
+}
+
+#ProjscreenForm {
+    margin-left: 15%;
+    width: 70%;
+}
+
+#ProjscreenForm input, #ProjscreenForm textarea {
+    font-size: 15px;
+    font-weight: normal;
+    background: #9da7b1;
+    border: 0;
+    color: black;
+    width: 248px;
+    height: 30px;
+    padding: 4px;
+}
+
+#ProjscreenForm #projectSearch, #ProjscreenForm #userSearch {
+    width: 248px;
+}
+
+#ProjscreenForm tr {
+    padding: 15px;
+}
+
+#ProjscreenForm td {
+    padding: 15px;
+    font-size: 22px;
+}
+
+#ProjscreenForm .square {
+    height: 10px;
+    width: 256px;
+    background-color: #fa7846;
+}
+
+#ProjscreenForm span.ui-treetable-indent {
+    margin-left: 20px;
+}
+
+.ui-treetable .ui-treetable-toggler {
+    margin-right: 25px;
+    width: 0;
+    height: 0;
+    border-bottom: 30px solid #f87746;
+    border-left: 30px solid transparent;
+}
+
+.ui-treetable .ui-treetable-toggler:hover {
+    margin-right: 25px;
+    width: 0;
+    height: 0;
+    border-bottom: 30px solid #bf6a20;
+    border-left: 30px solid transparent;
+    -moz-transition: all .2s ease-in;
+    -o-transition: all .2s ease-in;
+    -webkit-transition: all .2s ease-in;
+}
+
+.ui-datepicker {
+    color: honeydew;
+    display: block;
+    padding: .2em;
+    text-align: right;
+    text-decoration: none;
+}
+.ui-datepicker table {
+    background: rgb(44, 62, 80);
+}
+
+.ui-datepicker .ui-datepicker-header {
+    color: white;
+    background: rgb(248, 119, 70);
+}
+
+.ui-datepicker td span, .ui-datepicker td a {
+    color: white;
+}
+
+.ui-datepicker td {
+    border: 0;
+    padding: 1px;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-25%, -25%);
+}
+
+#ProjscreenForm .ui-button {
+    border: 0;
+    background: #f87746;
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    margin-right: .1em;
+    text-decoration: none!important;
+    cursor: pointer;
+    text-align: center;
+    zoom: 1;
+    overflow: visible;
+    font-size: 21px
+}
+
+.fc-row ui-widget-header {
+    color: white;
+}

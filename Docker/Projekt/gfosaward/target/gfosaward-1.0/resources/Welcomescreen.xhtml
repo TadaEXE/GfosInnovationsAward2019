@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Willkommen!</title>
+    </h:head>
+
+
+    <script type="application/javascript">  
+            function addGroupToList(name)
+            {
+                var para = document.createElement("option");
+                document.getElementById("groupList").appendChild(para); 
+                var att = document.createAttribute("value");
+                att.value = name;
+                para.setAttributeNode(att); 
+            }
+            
+            function updateLists()
+            {
+            var select = document.getElementById("groupList");
+            var length = select.options.length;
+            for (i = 0; i &lt; length; i++) {
+            select.options.remove(i);
+                }
+            }
+            
+            function joinGroup() 
+            {
+              var dataset = document.getElementById("groupSearch").value;
+              document.getElementById("WelcomescreenForm:joinGroupHolder").value = dataset;
+              sendReq();
+            }
+
+    </script>
+
+    
+    
+    <h:form id="welcomeGrowl">
+        <p:growl id="growl" showDetail="true"/> 
+    </h:form>
+
+    <h:body onload="#{userBean.showAllGroups()}">
+        <h:outputStylesheet library = "css" name = "WelcomeStyle.css"  />    
+        <h:form id="WelcomescreenForm"> 
+            
+            <!--Not Visible-->
+            <p:remoteCommand name="sendReq" action="#{userDataBean.sendGroupJoinRequest()}" update="@all"/>
+            <p:inputText id="joinGroupHolder" value="#{userDataBean.join_GroupName}" style="display: none;"/>
+            <!--Not Visible-->
+
+
+            <div id="allGroups">
+                <div id="joinGroup">
+                    <div id="joinGroup_top"><h1>BEITRETEN</h1></div>    
+                    <p>   
+                        Sie möchten einer Gruppe beitreten und fleißige Unterstützung leisten?
+                    </p>
+                    <p>
+                        Treten Sie nun einer Gruppe bei und sein Sie Teil
+                        eines Teams, absolvieren Sie Aufgaben und unterstützen
+                        Sie die Gruppe, ihre Projekte erfolgreich zu beenden.
+                    </p>
+
+                    <input id="groupSearch" list="groupList" placeholder="Gruppe wählen" autocomplete="off"/>
+                    <datalist id="groupList">
+                    </datalist>  
+
+
+                    <p:commandButton id="joinGroupBtn" oncomplete="joinGroup()"
+                                     value="GRUPPE BEITRETEN" >
+                    </p:commandButton>  
+                </div>
+
+
+                <div id="createGroup">
+                    <div id="createGroup_top"><h1>ERSTELLEN</h1></div>    
+                    <p>
+                        Sie möchten eine Gruppe erstellen und Projekte leiten?
+                    </p>
+                    <p>
+                        Erstellen Sie nun eine Gruppe und Sie können
+                        mit Projekten und Teams ihr eigenes Kader gestalten.
+                        Hierzu entsteht für Sie als Gruppenleiter die Verantwortung.
+                    </p>
+
+                    <p:inputText id="groupname" type="text" placeholder="Name" value="#{userDataBean.create_groupname}"/>
+
+                    <p:commandButton id="createGroupBtn" action="#{userDataBean.createGroup()}"
+                                     value="GRUPPE ERSTELLEN" update="@all" ajax="false">
+                    </p:commandButton>  
+                </div>
+            </div>
+
+
+        </h:form>
+    </h:body>
+
+</html>

@@ -1,0 +1,171 @@
+
+ @font-face { font-family: OpenSans; src: url('OpenSans-Regular.ttf'); } 
+
+ input, textarea, select, button,  body {
+  font-family: OpenSans;
+}
+
+body {
+    margin: 0px;
+    background: #2a3137;
+}
+
+#topbar {
+    background: #2c3a47;
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    top:0;
+    width:100%;
+    z-index: 999999;
+}
+
+#userbar {
+    height: 100%;
+    float: left;
+    white-space: nowrap;
+}
+
+#HomescreenDiv .ui-button {
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+#username {
+    padding-left: 50px;
+    font-size: 35px;
+    color: #ced6e0;
+    padding-top: 10px;
+    float: left;
+    margin-right: 30px;
+}
+
+#usergroup {
+    font-size: 18px;
+    color: #ced6e0;
+    display: -webkit-box;
+}
+
+#userpos {
+    color: white;
+}
+
+#userrank {
+    font-size: 18px;
+    padding-top: 3px;
+    color: #ced6e0;
+    margin-left: 40px;
+    display: -webkit-box;
+}
+
+#tabbar_top {
+    padding: 0;
+    list-style: none;
+    right: 0;
+    top: 0;
+    margin: 0;
+    display: flex;
+    height: 100%;
+    float: right;
+}
+
+#tabbar_top li {
+    display: inline;
+    width: 100%;
+    height: 100%;
+}
+
+ #tabbar_top .ui-button {
+    display: block;
+    height: 100%;
+    background: transparent;
+    float: right;
+    outline: none;
+    color: #ced6e0;
+    box-shadow: none;
+    text-shadow: none;
+    border: none;
+    font-size: 20px;
+}
+
+#tabbar_top .ui-button:hover {
+  background-color: #fa7846;
+  color: white;
+}
+
+    #topbar_down {
+    padding-top: 80px;
+    background: #8395a7;
+    height: 0px;
+    width: 0%;
+    position: fixed;
+    top:0;
+    z-index: 999998;
+}
+
+.content {
+    padding-top: 130px;
+}
+
+#HomescreenDiv .ui-growl{
+    border: none;
+}
+
+#HomescreenDiv .ui-state-highlight{
+    background: none;
+}
+
+#HomescreenDiv .ui-corner-all {
+    border-radius: 0px;
+}
+
+#HomescreenDiv .ui-icon{
+    background-image: none;
+}
+
+#HomescreenDiv .ui-widget-header{
+    
+    background: #FA7846 !important;
+    
+}
+
+#HomescreenDiv .ui-widget-content{
+    border: none;
+    background: #698497;
+}
+
+@media screen and (max-width: 1300px) {
+    
+    #userbar {
+    margin-right: 100%;
+    }
+    
+    #tabbar_top {
+        float: left;
+        height: 50%;
+    }
+    
+#topbar_down {
+    padding-top: 80px;
+    background: #8395a7;
+    height: 40px;
+    width: 100%;
+    position: fixed;
+    top:0;
+}
+
+.content {
+    padding-top: 150px;
+}
+
+
+}
+
+.ui-growl {
+    margin-top: 111px;
+    position: fixed;
+}
+
+.ui-growl-item {
+        background: #fa7846;
+}

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Profil</title>
+    </h:head>
+
+    <script type="text/javascript">
+        PrimeFaces.locales['de'] = {
+            closeText: 'Schließen',
+            prevText: 'Zurück',
+            nextText: 'Weiter',
+            monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+            monthNamesShort: ['Jan', 'Feb', 'März', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+            dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+            dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
+            dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
+            weekHeader: 'Woche',
+            FirstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Nur Zeit',
+            timeText: 'Zeit',
+            hourText: 'Stunde',
+            minuteText: 'Minute',
+            secondText: 'Sekunde',
+            currentText: 'Aktuelles Datum',
+            ampm: false,
+            month: 'Monat',
+            week: 'Woche',
+            day: 'Tag',
+            allDayText: 'Ganzer Tag'
+        };
+    </script>
+
+
+    <script type="application/javascript">
+        function errorSquare(squareClass, isErr)
+        {           
+        if(isErr)                      
+        document.getElementsByClassName(squareClass)[0].style.backgroundColor = "red";
+        else
+        document.getElementsByClassName(squareClass)[0].style.backgroundColor = "#fa7846";   
+        }
+
+        function addProjectToList(name)
+        {    
+        var para = document.createElement("option");
+        document.getElementById("projectList").appendChild(para); 
+        var att = document.createAttribute("value");
+        att.value = name;
+        para.setAttributeNode(att); 
+        }
+
+        function updateLists()
+        {
+        var select = document.getElementById("projectList");
+        var length = select.options.length;
+        for (i = 0; i &lt; length; i++) {
+        select.options.remove(i);
+        }
+        }
+
+        function addUserToList(name)
+        {
+        var para = document.createElement("option");
+        document.getElementById("userList").appendChild(para); 
+        var att = document.createAttribute("value");
+        att.value = name;
+        para.setAttributeNode(att); 
+        }
+
+        function createTaskJS() 
+        {
+        var proj = document.getElementById("projectSearch").value;
+        document.getElementById("ProjscreenForm:projectHolder").value = proj;
+        var usr = document.getElementById("userSearch").value;
+        document.getElementById("ProjscreenForm:userHolder").value = usr;
+        createTaskReq();
+        }
+
+        function changeTaskJS()
+        {
+        var proj = document.getElementById("changeprojectSearch").value;
+        document.getElementById("ProjscreenForm:changeprojectHolder").value = proj;
+        var usr = document.getElementById("changeuserSearch").value;
+        document.getElementById("ProjscreenForm:changeuserHolder").value = usr;
+        var status = document.getElementById("changeStatusSearch").value;
+        document.getElementById("ProjscreenForm:changeStatusHolder").value = status;
+
+        changeTaskReq();
+        }
+
+        function projectResetter()
+        {
+        projectResetCreation();
+        }
+
+        function taskResetter()
+        {
+        taskResetCreation();
+        }
+
+        function closeOverlay()
+        {
+        closeOnSuccess();
+        }
+
+        function alertForScoring()
+        {
+            if(confirm("Sollen die Punkte der Aufgabe wirklich zugewiesen werden?"))
+            {
+                solved();
+            }
+        }
+        
+
+    </script>
+
+
+    <h:form id="projectGrowl">
+        <p:growl id="growl" showDetail="true"/> 
+    </h:form>
+
+
+    <h:body onload="#{userBean.projectScreenSetup()}">
+        <h:outputStylesheet library = "css" name = "ProjectStyle.css"  /> 
+        <h:form id="ProjscreenForm">
+
+            <!--Not Visible-->
+            <p:remoteCommand name="createTaskReq" action="#{userDataBean.createTask()}"/>
+            <p:remoteCommand name="changeTaskReq" action="#{userDataBean.changeTask(userBean.selectedTreeObj.entityAsTask)}"/>
+            <p:remoteCommand name="solved" action="#{userDataBean.solvedTask(userBean.selectedTreeObj.entityAsTask)}" update=":ProjscreenForm:projectTree :ProjscreenForm:projectChangeID :ProjscreenForm:taskChangeID"/>
+
+            <p:inputText id="projectHolder" value="#{userDataBean.createT_ProjectName}" style="display: none;"/>
+            <p:inputText id="userHolder" value="#{userDataBean.createT_Usermail}" style="display: none;"/>
+            <p:inputText id="changeprojectHolder" value="#{userDataBean.changeT_ProjectName}" style="display: none;"/>
+            <p:inputText id="changeuserHolder" value="#{userDataBean.changeT_UserMail}" style="display: none;"/>
+            <p:inputText id="changeStatusHolder" value="#{userDataBean.changeT_Status}" style="display: none;"/>
+
+            <p:remoteCommand name="projectResetCreation" action="#{userDataBean.closeProjectCreate()}" update=":ProjscreenForm:projectTree :ProjscreenForm:createProjectPanel"/>
+            <p:remoteCommand name="taskResetCreation" action="#{userDataBean.closeTaskCreate()}" update=":ProjscreenForm:taskCreateID :ProjscreenForm:projectTree" />
+            <p:remoteCommand name ="closeOnSuccess" action="#{userDataBean.closeOverlayReq}" update=":ProjscreenForm:projectTree :ProjscreenForm:projectChangeID :ProjscreenForm:taskChangeID"/>
+            <p:remoteCommand name="setupAfterProject" action="#{userBean.projectScreenSetup()}" update=":ProjscreenForm:taskCreateID :ProjscreenForm:projectTree" />
+            <!--Not Visible-->
+
+
+            <h:panelGroup id="createProjectPanel" rendered="#{userBean.userHasMinRank(2)}">
+                <p:commandButton id="showCreateProject" value="Projekt erstellen" onclick="PF('projectCreate').show()"/>
+               
+
+                <p:overlayPanel widgetVar="projectCreate" showEffect="fade" hideEffect="fade" for="showCreateProject" dismissable="false">
+
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="square crePNameErr"></div>
+                                <p:inputText id="projectname" type="text" placeholder="Titel" value="#{userDataBean.createP_Name}">
+                                    <p:ajax event="keyup"/>
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square crePDeadlineErr"></div>
+                                <p:outputLabel for="projectdeadline"/>
+                                <p:calendar id="projectdeadline" placeholder="Fertigstellung am" value="#{userDataBean.createP_DeadlineDate}" locale="de" navigator="true" pattern="dd-MMM-yyyy" >
+                                    <p:ajax event="dateSelect" listener="#{userDataBean.createP_DeadlineDateChange}" />
+                                </p:calendar>
+                            </td>
+                        </tr>
+                        <tr>   
+                            <td>
+                                <div class="square crePDescriptionErr"></div>
+                                <p:inputTextarea id="projectdescription" placeholder="Beschreibung" value="#{userDataBean.createP_Description}">
+                                    <p:ajax event="keyup"/>
+                                </p:inputTextarea>
+
+                            </td> 
+                        </tr>
+                    </table>
+
+
+                    <p:commandButton class="saveBtn" value="Speichern" type="button">
+                        <p:ajax event="click" listener="#{userDataBean.createProject()}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Abbrechen">
+                        <p:ajax event="click" listener="#{userDataBean.closeProjectCreate()}" update=":ProjscreenForm:createProjectPanel"/>
+                    </p:commandButton>
+                </p:overlayPanel>
+            </h:panelGroup>
+
+
+
+
+
+
+            <h:panelGroup rendered="#{userBean.userHasMinRank(1)}">
+                <p:commandButton id="showCreateTask" value="Aufgabe erstellen" onclick="PF('taskCreate').show()"/>
+
+                <p:overlayPanel id="taskCreateID" widgetVar="taskCreate" showEffect="fade" hideEffect="fade" for="showCreateTask" dismissable="false">
+
+
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="square creTNameErr"></div>
+                                <p:inputText id="taskname" type="text" placeholder="Titel" value="#{userDataBean.createT_Name}">
+                                    <p:ajax event="keyup" />
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square creTScoreErr"></div>
+                                <p:inputText id="taskscore" type="text" placeholder="Punkte" value="#{userDataBean.createT_Score}">
+                                    <p:ajax event="keyup" />
+                                </p:inputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square creTDeadlineErr"></div>
+                                <p:outputLabel for="taskdeadline"/>
+                                <p:calendar id="taskdeadline" placeholder="Fertigstellung am" value="#{userDataBean.createT_DeadlineDate}" locale="de" navigator="true" pattern="yyyy-MMM-dd">
+                                    <p:ajax event="dateSelect" listener="#{userDataBean.createT_DeadlineDateChange}" />
+                                </p:calendar>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>   
+                                <div class="square creTprojectErr"></div>
+                                <input id="projectSearch" list="projectList" placeholder="Projekt" autocomplete="off"/>
+                                <datalist id="projectList">
+                                </datalist>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square creTuserErr"></div>
+                                <input id="userSearch" list="userList" placeholder="Bearbeiter" autocomplete="off"/>
+                                <datalist id="userList">
+                                </datalist>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square creTDescriptionErr"></div>
+                                <p:inputTextarea id="taskdescription" placeholder="Beschreibung" value="#{userDataBean.createT_Description}">
+                                    <p:ajax event="keyup" />
+                                </p:inputTextarea>
+                            </td>
+                        </tr>
+
+                    </table>
+
+
+                    <p:commandButton class="saveBtn" value="Speichern" >
+                        <p:ajax event="click" listener="#{userDataBean.createTaskReq()}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Abbrechen">
+                        <p:ajax event="click" listener="#{userDataBean.closeTaskCreate()}" update=":ProjscreenForm:createProjectPanel"/>
+                    </p:commandButton>
+                </p:overlayPanel> 
+            </h:panelGroup>  
+
+            <p:treeTable id="projectTree" value="#{userBean.genProjectTable()}" var="project" >
+                <f:facet name="header">
+                    Projektansicht
+                </f:facet>
+                <p:column headerText="Name">
+                    <h:outputText value="#{project.name}" />
+                </p:column>
+                <p:column headerText="Typ">
+                    <h:outputText value="#{project.classType}"/>
+                </p:column>
+                <p:column style="width:140px">
+                    <p:commandButton value="Anzeigen" update=":ProjscreenForm:projectTreeDialog" oncomplete="PF('projectTreeDialog').show()">
+                        <f:setPropertyActionListener value="#{project}" target="#{userBean.selectedTreeObj}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:treeTable>
+
+            <p:dialog id="projectTreeDialog" header="Information" showEffect="fade" widgetVar="projectTreeDialog" resizable="false" closeOnEscape="true">
+                <p:outputPanel id="projectChangeID"  rendered="#{userBean.selectedTreeObj.classType eq 'Projekt'}">
+                    <table>
+                        <tr>
+                            <td>
+                                <div class="square changePNameTDErr"></div>
+                                <p:inputText id="projectnameTD" type="text" placeholder="Name" value="#{userBean.selectedTreeObj.entityAsProject.name}" readonly="#{userBean.userHasMinRank(2)}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square changePDeadlineTDErr"></div>
+                                <p:outputLabel for="projectdeadline"/>
+                                <p:calendar id="projectdeadlineTD" placeholder="#{userBean.selectedTreeObj.entityAsProject.deadlineDate}" locale="de" navigator="true" pattern="dd-MMM-yyyy" readonly="#{userBean.userHasMinRank(2)}">
+                                    <p:ajax event="dateSelect" listener="#{userDataBean.changeP_DeadlineDateChange}" />
+                                </p:calendar>
+                            </td>
+                        </tr>
+                        <tr>   
+                            <td>
+                                <div class="square changePDescriptionTDErr"></div>
+                                <p:inputTextarea id="projectdescriptionTD" placeholder="Beschreibung" value="#{userBean.selectedTreeObj.entityAsProject.description}" readonly="#{userBean.userHasMinRank(2)}"/>
+
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Speichern" rendered="#{userBean.userHasMinRank(2)}">
+                                    <p:ajax event="click" listener="#{userDataBean.changeProject(userBean.selectedTreeObj.entityAsProject)}" update="@(.square)"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Entfernen" rendered="#{userBean.userHasMinRank(2)}">
+                                    <p:ajax event="click" listener="#{userDataBean.deleteProject(userBean.selectedTreeObj.entityAsProject)}" update="tabView"/>
+                                </p:commandButton>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="Abbrechen">
+                                    <p:ajax event="click" update=":ProjscreenForm:projectTreeDialog"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                    </table>
+                </p:outputPanel>
+
+
+
+
+
+
+
+                <p:outputPanel id="taskChangeID" rendered="#{userBean.selectedTreeObj.classType eq 'Aufgabe'}" style="width: 650px">
+                    <table style="float:left; width:325px;">
+                        <tr>
+                            <td>
+                                <div class="square changeTNameErr"></div>
+                                <p:inputText id="changetaskname" type="text" placeholder="Titel" value="#{userBean.selectedTreeObj.entityAsTask.name}" readonly="#{userBean.userHasMinRank(1)}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square changeTScoreErr"></div>
+                                <p:inputText id="changetaskscore" type="text" placeholder="#{userBean.selectedTreeObj.entityAsTask.score}" value="#{userDataBean.changeT_score}" readonly="#{userBean.userHasMinRank(1)}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square changeTDeadlineErr"></div>
+                                <p:outputLabel for="taskdeadline"/>
+                                <p:calendar id="changetaskdeadline" placeholder="#{userBean.selectedTreeObj.entityAsTask.deadlineDate}" locale="de" navigator="true" pattern="dd-MMM-yyyy" readonly="#{userBean.userHasMinRank(1)}">
+                                    <p:ajax event="dateSelect" listener="#{userDataBean.changeT_DeadlineDateChange}" />
+                                </p:calendar>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>   
+                                <div class="square changeTprojectErr"></div>
+                                <input id="changeprojectSearch" list="projectList" placeholder="Projekt" value="#{userBean.selectedTreeObj.entityAsTask.project.name}" autocomplete="off"/>
+                                <datalist id="changeprojectList">
+                                </datalist>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square changeTuserErr"></div>
+                                <input id="changeuserSearch" list="userList" placeholder="Bearbeiter" value="#{userBean.selectedTreeObj.entityAsTask.user.email}" autocomplete="off"/>
+                                <datalist id="changeuserList">
+                                </datalist>  
+                            </td>
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Absolviert" style="width: 256px" rendered="#{userBean.userHasMinRank(1)}">
+                                    <p:ajax event="click" oncomplete="alertForScoring()" update="tabView"/>
+                                </p:commandButton>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <table style="float:right; width:325px;">
+                        <tr>
+                            <td>
+                                <div class="square changeTstatusErr"></div>
+                                <input id="changeStatusSearch" list="changeStatusList" placeholder="Status" value="#{userBean.selectedTreeObj.entityAsTask.taskStatus}" readonly="#{userBean.userHasMinRank(1)}" autocomplete="off"/>
+                                <datalist id="changeStatusList">
+                                    <option value="In_Warteliste"/>
+                                    <option value="In_Bearbeitung"/>
+                                    <option value="Fertig"/>
+                                </datalist>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="square changeTDescriptionErr"></div>
+                                <p:inputTextarea id="changetaskdescription" placeholder="Beschreibung" value="#{userBean.selectedTreeObj.entityAsTask.description}" readonly="#{userBean.userHasMinRank(1)}"/>
+                            </td>
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Speichern" style="width: 256px" rendered="#{userBean.userHasMinRank(1)}">
+                                    <p:ajax event="click" listener="#{userDataBean.changeTaskReq()}" update="@(.square)"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td>
+                                <p:commandButton value="Entfernen" style="width: 256px" rendered="#{userBean.userHasMinRank(1)}">
+                                    <p:ajax event="click" listener="#{userDataBean.deleteTask(userBean.selectedTreeObj.entityAsTask)}" update="tabView"/>
+                                </p:commandButton>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:commandButton value="Abbrechen" style="width: 256px">
+                                    <p:ajax event="click" update=":ProjscreenForm:projectTreeDialog"/>
+                                </p:commandButton>
+                            </td> 
+                        </tr>
+                    </table>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>

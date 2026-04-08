@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Aufgaben</title>
+    </h:head>
+    <script type="text/javascript">
+        PrimeFaces.locales['de'] = {
+            closeText: 'Schließen',
+            prevText: 'Zurück',
+            nextText: 'Weiter',
+            monthNames: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+            monthNamesShort: ['Jan', 'Feb', 'März', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+            dayNames: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+            dayNamesShort: ['Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam'],
+            dayNamesMin: ['S', 'M', 'D', 'M ', 'D', 'F ', 'S'],
+            weekHeader: 'Woche',
+            FirstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            timeOnlyTitle: 'Nur Zeit',
+            timeText: 'Zeit',
+            hourText: 'Stunde',
+            minuteText: 'Minute',
+            secondText: 'Sekunde',
+            currentText: 'Aktuelles Datum',
+            ampm: false,
+            month: 'Monat',
+            week: 'Woche',
+            day: 'Tag',
+            allDayText: 'Ganzer Tag'
+        };
+
+        function errorSquare(squareClass, isErr)
+        {
+            if (isErr)
+                document.getElementsByClassName(squareClass)[0].style.backgroundColor = "red";
+            else
+                document.getElementsByClassName(squareClass)[0].style.backgroundColor = "#fa7846";
+        }
+
+        function statusGetter()
+        {
+            var status = document.getElementById("myTaskSearch").value;
+            document.getElementById("TaskscreenForm:changeOwnStatusHolder").value = status;
+            changeOwnTaskReq();
+        }
+
+
+    </script>
+
+    <h:body onload="#{userBean.loadTaskScheduel()}">
+        <h:outputStylesheet library = "css" name = "TaskStyle.css"  />    
+
+        <h:form id="TaskscreenForm"> 
+
+            <!--Not Visible-->
+            <p:remoteCommand name="changeOwnTaskReq" action="#{userDataBean.changeOwnTaskStatus(userBean.selectedEventTask)}"/>
+            <p:inputText id="changeOwnStatusHolder" value="#{userDataBean.changeTOwn_Status}" style="display: none;"/>
+            <!--Not Visible-->
+
+            <p:schedule id="taskSchedule" value="#{userBean.taskModel}" locale="de" draggable="false" resizable="false">
+                <p:ajax event="eventSelect" listener="#{userBean.onTaskEventSelect}" update="taskEventDialog" oncomplete="PF('taskEventDialogWV').show();"/>
+            </p:schedule>
+
+            <p:dialog id="taskEventDialog" header="Information" showEffect="fade" widgetVar="taskEventDialogWV" resizable="false" closable="true" closeOnEscape="true" showHeader="true" >
+                <h:panelGrid>
+                    <p:outputLabel value="Titel: #{userBean.selectedEventTask.name}"/>
+                    <p:outputLabel value="Beschreibung: #{userBean.selectedEventTask.description}"/>
+                    <p:outputLabel value="Projekt: #{userBean.selectedEventTask.project.name}"/>
+                    <div class="square changeMyTaskErr"></div>
+                    <input id="myTaskSearch" list="myTaskList" placeholder="Status" value="#{userBean.selectedEventTask.taskStatus}" autocomplete="off"/>
+                    <datalist id="myTaskList">
+                        <option value="In_Warteliste"/>
+                        <option value="In_Bearbeitung"/>
+                        <option value="Fertig"/>
+                    </datalist>
+                    <p:commandButton class="saveBtn" value="Speichern" >
+                        <p:ajax event="click" oncomplete="statusGetter()" update="@(.square)"/>
+                    </p:commandButton>
+                    <p:commandButton value="Abbrechen">
+                        <p:ajax event="click" update="tabView"/>
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>

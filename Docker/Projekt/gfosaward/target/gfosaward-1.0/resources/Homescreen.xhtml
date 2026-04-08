@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+    <h:head>
+        <title>Homepage</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    </h:head>
+
+    <h:body onload="#{userDataBean.checkUserlogin()}" > 
+ <h:form>
+        <div id="HomescreenDiv">
+            <h:outputStylesheet library = "css" name = "HomeStyle.css"  />   
+              
+            <div id="topbar_down"></div>
+
+            <div id="topbar">
+                <div id="userbar">
+                    <div id="username"><p:outputLabel value="#{userBean.currentUser.name}" /></div>
+                    <div id="userpos">#{userBean.currentUserPosString()}</div>
+                    <div id="usergroup">#{userBean.currentUser.workGroup.name}</div>
+                    <div id="userrank">#{userBean.currentUser.rank}</div>                            
+                </div>    
+
+
+                <ul id="tabbar_top">
+                    <li>
+                        <p:commandButton class="tabButton" value="AUFGABEN" action="#{userBean.setCurTab('Taskscreen')}" update="tabView"/>
+                    </li>
+                    <li>
+                        <p:commandButton class="tabButton" value="PROJEKTE" action="#{userBean.setCurTab('Projectscreen')}" update="tabView"/>
+                    </li>
+                    <li>
+                        <p:commandButton class="tabButton" value="GRUPPE" action="#{userBean.setCurTab('Groupviewscreen')}" update="tabView"/>
+                    </li>
+                    <li>
+                        <p:commandButton class="tabButton" value="RANGLISTE"  action="#{userBean.setCurTab('Rankingscreen')}" update="tabView"/>
+                    </li>
+                    <li>
+                        <p:commandButton class="tabButton" value="PROFIL"  action="#{userBean.setCurTab('Accountscreen')}" update="tabView"/>
+                    </li>
+                    <li>
+                        <p:commandButton class="tabButton" value="LOGOUT"  action="#{userBean.logout}" ajax="false"/>
+                    </li>
+                </ul>          
+            </div>     
+        </div>
+ </h:form>
+
+        <div class="content">
+            <h:panelGroup id="tabView">
+                <h:panelGroup rendered="#{userBean.curTab == 'Taskscreen'}">
+                    <ui:include src="/resources/Taskscreen.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{userBean.curTab == 'Accountscreen'}">
+                    <ui:include src="/resources/Accountscreen.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{userBean.curTab == 'Groupviewscreen'}">
+                    <ui:include src="/resources/Groupviewscreen.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{userBean.curTab == 'Projectscreen'}">
+                    <ui:include src="/resources/Projectscreen.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{userBean.curTab == 'Welcomescreen'}">
+                    <ui:include src="/resources/Welcomescreen.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{userBean.curTab == 'Rankingscreen'}">
+                    <ui:include src="/resources/Rankingscreen.xhtml"/>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{userBean.curTab == 'Joiningscreen'}">
+                    <ui:include src="/resources/Joiningscreen.xhtml"/>
+                </h:panelGroup>
+            </h:panelGroup>
+        </div>
+
+    </h:body>
+</html>

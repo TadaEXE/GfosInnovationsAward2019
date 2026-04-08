@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+  
+    
+    <h:head>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <h:outputStylesheet library = "css" name = "AccountStyle.css"  />    
+    </h:head>
+
+    
+    <script type="application/javascript">
+
+
+        function errorSquare(squareClass, isErr)
+        {           
+        if(isErr)                      
+        document.getElementsByClassName(squareClass)[0].style.backgroundColor = "red";
+        else
+        document.getElementsByClassName(squareClass)[0].style.backgroundColor = "#fa7846";                     
+        }
+        
+        function changeTab(menu)
+        {
+            
+            if(menu == "password")
+            {
+                document.getElementById("menuHeading").innerHTML = "Passwort";
+                document.getElementsByClassName("settingsMenu")[0].style.display = "none";
+                document.getElementsByClassName("groupMenu")[0].style.display = "none";
+                document.getElementsByClassName("passwordMenu")[0].style.display = "grid";
+            }
+            else if(menu == "group")
+            {
+                document.getElementById("menuHeading").innerHTML = "Gruppe";
+                document.getElementsByClassName("settingsMenu")[0].style.display = "none";
+                document.getElementsByClassName("groupMenu")[0].style.display = "grid";
+                document.getElementsByClassName("passwordMenu")[0].style.display = "none";
+            }
+        }
+
+    </script>
+
+    
+    
+    <h:form id="accountGrowl">
+        <p:growl id="growl" showDetail="true"/> 
+    </h:form>
+
+
+    <h:body>
+        <h:form id="allMenus">
+
+            <div id="selectMenu">
+                <div id="topbar_selectMenu"><h1>#{userBean.currentUser.name}</h1></div>
+
+                <p:commandButton id="selectProfileMenu" value="Profil" update="tabView">
+                </p:commandButton>
+                <p:commandButton id="selectPasswordMenu" onclick="return changeTab('password');" value="Passwort">
+                </p:commandButton>
+                <p:commandButton id="selectGroupMenu"  onclick="return changeTab('group');" value="Gruppe" >
+                </p:commandButton>
+
+            </div>
+
+
+            <div id="menu">
+                <div id="topbar_menu"><h1 id="menuHeading">Profil</h1></div>
+
+                <div class="settingsMenu">
+                    <h:panelGrid class="settingsInput" columns="2" cellpadding="5" >   
+                        <div class="square chNameErr"></div>
+                        <p:inputText id="name" type="text" placeholder="Name" value="#{userDataBean.change_name}"/>
+                        <div class="square chLastNameErr"></div>
+                        <p:inputText id="lastname" type="text" placeholder="Nachname" value="#{userDataBean.change_lastname}"/>
+                        <div class="square chMailErr"></div>
+                        <p:inputText id="e-mail" type="text" placeholder="E-mail" value="#{userDataBean.change_email}"/>
+                        <div class="square chPasswordErr"></div>
+                        <p:inputText id="password" type="password" placeholder="Aktuelles Passwort" value="#{userDataBean.change_password}"/>
+                        <div class="square chVerifyPasswordErr"></div>
+                        <p:inputText id="verifyPassword" type="password" placeholder="Aktuelles Passwort (Wiederholen)" value="#{userDataBean.change_verifyPassword}" />
+                    </h:panelGrid>
+                    <p:commandButton id="saveBtn" action="#{userDataBean.changeSettings()}"
+                                     value="SPEICHERN" update="tabView">
+                    </p:commandButton>  
+                </div> 
+
+                <div class="passwordMenu">
+                    <h:panelGrid class="passwordInput" columns="2" cellpadding="5" >   
+                        <div class="square pwNewPasswordErr"></div>
+                        <p:inputText id="pwnewPassword" type="password" placeholder="Neues Passwort" value="#{userDataBean.pw_newPassword}"/>
+                        <div class="square pwNewVerifyPasswordErr"></div>
+                        <p:inputText id="pwnewVerifypassword" type="password" placeholder="Neues Passwort (wiederholen)" value="#{userDataBean.pw_newVerifyPassword}"/>
+                        <div class="square pwPasswordErr"></div>
+                        <p:inputText id="pwpassword" type="password" placeholder="Aktuelles Passwort" value="#{userDataBean.pw_password}"/>
+                    </h:panelGrid>
+                    <p:commandButton id="pwSaveBtn" action="#{userDataBean.changePassword()}"
+                                     value="SPEICHERN" update="tabView">
+                    </p:commandButton>  
+                </div> 
+
+                <div class="groupMenu">
+                   
+
+                    <p> Möchtest du deine Gruppe verlassen? </p>
+                    
+                    <p:commandButton id="leaveGroupBtn" action="#{userDataBean.leaveGroup()}"
+                                     value="VERLASSEN" update="@all">
+                        <p:confirm header="Confirmation" message="Bist du dir sicher, dass du die Gruppe verlassen möchtest?"
+                                   icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>  
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog>      
+                </div>
+
+            </div>
+
+        </h:form>
+    </h:body>
+</html>

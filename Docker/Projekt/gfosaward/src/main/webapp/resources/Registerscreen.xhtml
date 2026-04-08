@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:head>
+        <title>Registrierung</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+    </h:head>
+
+
+    <script type="application/javascript">
+       
+        function errorSquare(squareClass, isErr)
+        {           
+            if(isErr)                      
+                document.getElementsByClassName(squareClass)[0].style.backgroundColor = "red";
+            else
+                document.getElementsByClassName(squareClass)[0].style.backgroundColor = "#fa7846";                     
+        }
+        
+    </script>
+
+
+    <h:body>       
+        <h:outputStylesheet library = "css" name = "RegisterStyle.css"  />    
+        <div class="registerBox">
+            <div class="register-head">
+                <h1>REGISTRATION</h1>
+            </div>
+            <h:form id="regForm">
+                <p:growl id="growl" class="ui-growl" showDetail="true" />  
+                <h:panelGrid class="registerPanel" columns="1" cellpadding="5" >   
+                    <h:panelGrid class="registerInput" columns="2" cellpadding="5" >                
+                        <div class="square regNameErr"></div>
+                        <p:inputText value="#{registrationBean.name}" placeholder="Vorname" ></p:inputText>
+                        <div class="square regLastNameErr"></div>
+                        <p:inputText value="#{registrationBean.lastName}" placeholder="Nachname"></p:inputText>
+                        <div class="square regMailName"></div>
+                        <p:inputText value="#{registrationBean.mail}" placeholder="E-mail"></p:inputText>                      
+                        <div class="square regPasswordErr"></div>
+                        <p:password value="#{registrationBean.password}" placeholder="Passwort (8-16 Zeichen)" feedback="Passwort"></p:password>
+                        <div class="square regValidatePasswordErr"></div>
+                        <p:password  value="#{registrationBean.verifyPassword}" placeholder="Passwort bestätigen" feedback="Passwort"></p:password>
+                        <div class="square regBirthDatErr"></div>
+                        <p:inputText value="#{registrationBean.birthDate}" placeholder="Geburtsdatum (z.B: 01.02.1988)"></p:inputText>
+                    </h:panelGrid>
+                    <p:commandButton id="registerButton" action="#{registrationBean.register()}"
+                                     value="REGISTRIEREN" update="regForm" ajax="true" styleClass="Menu">
+                    </p:commandButton>   
+                    <p id="accountLogin">Sie haben einen Account? <a href="/gfosaward/Web%20Pages/resources/Loginscreen.xhtml/">Melden Sie sich an.</a></p>
+                </h:panelGrid>
+                <p id="error"></p>
+                <p></p>
+            </h:form>
+        </div>
+
+    </h:body>
+</html>

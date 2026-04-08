@@ -1,0 +1,147 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 03.03.2019, 21:19:44
+    Author     : Gamer
+*/
+#TaskscreenForm .fc-content{
+    background: #2c3a47;
+    white-space: nowrap;
+    overflow: hidden;
+}
+#TaskscreenForm .fc-agendaDay-button{
+    width: 0;
+    height: 0;
+    position: fixed;
+    visibility: hidden;
+}
+
+#TaskscreenForm .fc-agendaWeek-button{
+    width: 0;
+    height: 0;
+    position: fixed;
+    visibility: hidden;
+}
+
+#TaskscreenForm .fc-month-button{
+    width: 0;
+    height: 0;
+    position: fixed;
+    visibility: hidden;
+}
+
+
+#TaskscreenForm .ui-treetable table {
+    border-collapse: collapse;
+    width: 100%;
+    border-color: black;
+    background: #2c3e50;
+}
+
+#TaskscreenForm thead {
+    background: #fa7846;
+}
+
+#TaskscreenForm span {
+    color: white;
+}
+
+#TaskscreenForm tbody {
+    color: #ced6e0;
+}
+
+#TaskscreenForm .ui-treetable .ui-treetable-header {
+    border-bottom: 0 none;
+    font-size: 30px;
+    color: #ced6e0;
+    text-align: -webkit-left;
+}
+
+
+#TaskscreenForm .ui-overlaypanel {
+    background: rgb(44, 58, 71);
+}
+
+
+#TaskscreenForm {
+    margin-left: 15%;
+    width: 70%;
+}
+
+#TaskscreenForm input, #TaskscreenForm textarea {
+    font-size: 15px;
+    font-weight: normal;
+    background: #9da7b1;
+    border: 0;
+    color: black;
+    width: 248px;
+    height: 30px;
+    padding: 4px;
+}
+
+#TaskscreenForm #projectSearch, #TaskscreenForm #userSearch {
+    width: 248px;
+}
+
+#TaskscreenForm tr {
+    padding: 15px;
+}
+
+#TaskscreenForm td {
+    padding: 15px;
+    font-size: 22px;
+}
+
+#TaskscreenForm .square {
+    height: 10px;
+    width: 256px;
+    background-color: #fa7846;
+}
+
+#TaskscreenForm span.ui-treetable-indent {
+    margin-left: 20px;
+}
+
+#TaskscreenForm .ui-button {
+    border: 0;
+    background: #f87746;
+    display: inline-block;
+    font-size: 21px;
+    color: white;
+}
+
+#TaskscreenForm h2 {
+        color: white;
+}
+
+#TaskscreenForm .fc-prev-button {
+    background: transparent;
+    border-top: 25px solid transparent;
+    border-right: 30px solid #8395a7;
+    border-bottom: 25px solid transparent;
+}
+
+#TaskscreenForm .fc-next-button {
+    margin-left: 8px;
+    border-top: 25px solid transparent;
+    border-left: 30px solid #afbbc9;
+    border-bottom: 25px solid transparent;
+    background: transparent;
+}
+
+#TaskscreenForm {
+    padding-bottom: 70px;
+}
+
+#TaskscreenForm .fc-center {
+    float: right;
+}
+
+#TaskscreenForm .fc-row {
+    border-style: solid;
+    border-width: 0;
+    color: white;
+}
